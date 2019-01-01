@@ -27,3 +27,13 @@ def send_message(twilio_client, to_number, from_number, message):
 
 for to_number in TO_NUMBERS:
     send_message(client, to_number, from_number, message)
+
+
+'''
+- add if __name to run
+- create message.py, response.py
+- create receive_sms.py
+- add FOI to to_numbers
+- upgrade Twilio
+''' 
+
