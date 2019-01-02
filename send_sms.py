@@ -1,8 +1,8 @@
 from message import MESSAGE_BODY
 import os
-from phone_numbers import TO_NUMBERS
+from foi import FOI_NUMBERS
 from twilio.rest import Client
-from twilio_variables import *
+from twilio_variables import ACCOUNT_SID, AUTH_TOKEN, TWILIO_PHONE_NUMBER
 
 
 account_sid = ACCOUNT_SID
@@ -11,6 +11,7 @@ client = Client(account_sid, auth_token)
 
 from_number = TWILIO_PHONE_NUMBER
 message = MESSAGE_BODY
+to_numbers = FOI_NUMBERS
 
 
 def send(twilio_client, to_number, from_number, message):
@@ -28,13 +29,10 @@ def send_to_mutliple_numbers(twilio_client, to_numbers, from_number, message):
         send(client, to_number, from_number, message)
 
 if __name__ == '__main__':
-    send_to_mutliple_numbers(client, TO_NUMBERS, from_number, message)
+    send_to_mutliple_numbers(client, to_numbers, from_number, message)
 
 
 '''
-- response.py
-- create receive_sms.py
-- add FOI to to_numbers
 - upgrade Twilio
 ''' 
 
