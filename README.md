@@ -13,3 +13,7 @@
 3. Phone Numbers => Messaging => A Message Comes In
     - copy ngrok link into "A Message Comes In" field and add "/sms" to ngrok link
 4. Run receive_sms.py
+
+#ToDo
+- Upgrade Twilio
+- Logging
