@@ -15,5 +15,4 @@
 4. Run receive_sms.py
 
 ### ToDo
-- Upgrade Twilio
 - Logging
