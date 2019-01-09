@@ -6,7 +6,11 @@ from pprint import pformat
 from twilio.rest import Client
 from twilio_variables import ACCOUNT_SID, AUTH_TOKEN, TWILIO_PHONE_NUMBER
 
-logging.basicConfig(level=logging.WARNING)
+logging.basicConfig(
+    filename='send.log',
+    level=logging.DEBUG, 
+    format='%(asctime)s:%(levelname)s:%(message)s'
+    )
 
 
 account_sid = ACCOUNT_SID
@@ -20,13 +24,13 @@ to_numbers = FOI_NUMBERS
 
 def send(twilio_client, to_number, from_number, message):
     try:
-        message = twilio_client.messages.create(
+        messageInstance = twilio_client.messages.create(
             to = to_number,
             from_= from_number,
             body = message
         )
 
-        logging.warning(pformat(message.__dict__, indent=2))
+        logging.info(pformat(messageInstance.__dict__, indent=2))
 
     except Exception as e:
         print(e)
