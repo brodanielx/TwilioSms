@@ -15,4 +15,5 @@
 4. Run receive_sms.py
 
 ### ToDo
-- Logging
+- Log receive_sms
+- Format log messages

@@ -6,6 +6,8 @@ phone_numbers.py
 to_numbers.py
 twilio_variables.py
 
+logs/
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

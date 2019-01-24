@@ -1,4 +1,5 @@
-from get_logger import create_logger
+import datetime
+from get_logger import create_file_path, create_logger
 from message import MESSAGE_BODY
 import os
 from foi import FOI_NUMBERS
@@ -7,7 +8,12 @@ from twilio.rest import Client
 from twilio_variables import ACCOUNT_SID, AUTH_TOKEN, TWILIO_PHONE_NUMBER
 
 
-logger = create_logger(file_path='send.log')
+# today_string = datetime.datetime.today().strftime('_%m%d%y')
+# file_name = f'sms{today_string}.log'
+# file_path = os.path.join('logs', file_name)
+
+file_path = create_file_path()
+logger = create_logger(file_path=file_path)
 
 
 account_sid = ACCOUNT_SID
@@ -38,9 +44,4 @@ def send_to_mutliple_numbers(twilio_client, to_numbers, from_number, message):
 
 if __name__ == '__main__':
     send_to_mutliple_numbers(client, to_numbers, from_number, message)
-
-
-'''
-- upgrade Twilio
-''' 
 
