@@ -16,4 +16,5 @@
 
 ### ToDo
 - Log receive_sms
-- Format log messages
+- Configure for running on OS and Windows
+- Work on sending images
