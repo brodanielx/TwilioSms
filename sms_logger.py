@@ -8,15 +8,14 @@ people = FOI
 
 
 
-def create_file_path():
+def create_file_path(file_name_prefix):
     '''
     Create file path for log file with today's date in the name.
     Ex: sms_012419.log
     '''
     today_string = datetime.datetime.today().strftime('_%Y_%m_%d')
-    file_name = f'sms{today_string}.log'
+    file_name = f'{file_name_prefix}{today_string}.log'
     return os.path.join('logs', file_name)
-
 
 
 def create_logger(
@@ -38,6 +37,25 @@ def create_logger(
 
     return logger
 
+    
+
+def format_incoming_sms_request(request):
+    date_created_string = datetime.datetime.now().strftime("%m/%d/%y %H:%M:%S")
+
+    from_number = request.values.get('From', None)
+    from_person = get_person_by_phone_number(from_number, people)
+
+    to_number = request.values.get('To', None)
+    to_person = get_person_by_phone_number(to_number, people)
+
+    body = request.values.get('Body', None)
+
+    formatted_log_entry = format_log_entry(body, date_created_string, from_person, to_person)
+
+    return formatted_log_entry
+
+
+
 
 def format_twilio_message_instance(twilio_message_instance):
     '''
@@ -48,7 +66,6 @@ def format_twilio_message_instance(twilio_message_instance):
 
     date_created = properties['date_created']
     date_created_string = f'{date_created.strftime("%m/%d/%y %H:%M:%S")} (UTC)'
-    # date_created_string = date_created.strftime('%m/%d/%y %H:%M:%S')
 
     from_number = properties['from_']
     from_person = get_person_by_phone_number(from_number, people)
@@ -58,6 +75,11 @@ def format_twilio_message_instance(twilio_message_instance):
 
     body = properties['body']
 
-    formatted_message = f'Date sent: {date_created_string} \nFrom: {from_person.full_name} ({from_number}) \nTo: {to_person.full_name} ({to_number}) \n\nMessage: \n{body}\n'
+    formatted_log_entry = format_log_entry(body, date_created_string, from_person, to_person)
 
-    return formatted_message
+    return formatted_log_entry
+
+
+
+def format_log_entry(body, date_created_string, from_person, to_person):
+    return f'Date sent: {date_created_string} \nFrom: {from_person.full_name} ({from_person.phone_number}) \nTo: {to_person.full_name} ({to_person.phone_number}) \n\nMessage: \n{body}\n'

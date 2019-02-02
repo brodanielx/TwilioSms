@@ -7,7 +7,7 @@ from pprint import pformat
 from twilio.rest import Client
 from twilio_variables import ACCOUNT_SID, AUTH_TOKEN, TWILIO_PHONE_NUMBER
 
-file_path = create_file_path()
+file_path = create_file_path('sms_send')
 logger = create_logger(file_path=file_path)
 
 

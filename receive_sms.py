@@ -5,9 +5,16 @@ from person import get_person_by_phone_number
 from pprint import pprint
 from response import get_personalized_response
 from send_sms import send
+from sms_logger import (
+    create_file_path, create_logger, 
+    format_incoming_sms_request, format_twilio_message_instance,
+)
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
 from twilio_variables import *
+
+file_path = create_file_path('sms_receive')
+logger = create_logger(file_path=file_path)
 
 
 account_sid = ACCOUNT_SID
@@ -23,8 +30,11 @@ app = Flask(__name__)
 
 def forward_message(twilio_client, to_number, twilio_number, twilio_request):
 
-    from_number = twilio_request.values.get('From', None)
+    # format_incoming_sms_request(twilio_request)
+    log_string = format_incoming_sms_request(twilio_request)
+    logger.info(log_string)
 
+    from_number = twilio_request.values.get('From', None)
     body = twilio_request.values.get('Body', None)
 
     person = get_person_by_phone_number(from_number, people)
@@ -40,8 +50,6 @@ def forward_message(twilio_client, to_number, twilio_number, twilio_request):
 
 @app.route("/sms", methods=['GET', 'POST'])
 def sms_reply():
-
-    # pprint(request.values.__dict__, indent=2)
 
     forward_message(client, admin_number, twilio_number, request)
 
