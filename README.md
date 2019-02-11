@@ -15,6 +15,8 @@
 4. Run receive_sms.py
 
 ### ToDo
-- Log receive_sms
+- Fix logger - receive_sms creating duplicate entries in log
+- automate running of scripts
+    - shebang line
 - Configure for running on OS and Windows
 - Work on sending images
