@@ -38,6 +38,20 @@ def send_to_mutliple_numbers(twilio_client, to_numbers, from_number, message):
     for to_number in to_numbers:
         send(client, to_number, from_number, message)
 
+def send_in_segments(twilio_client, to_numbers, from_number, message):
+    segments = segmentize(message)
+    for segment in segments:
+        send_to_mutliple_numbers(twilio_client, to_numbers, from_number, segment)
+        print(f'--------\n{segment}\n')
+
+def segmentize(message, segment_length = 150):
+    message_length = len(message)
+    segments = [ message[i:i+segment_length] for i in range(0, message_length, segment_length) ] 
+    segment_count = len(segments)
+    segment_count_str = str(segment_count)
+    return [ f'({str(i+1)}/{segment_count_str}) {segments[i]}' for i in range(len(segments)) ]
+
+
 if __name__ == '__main__':
-    send_to_mutliple_numbers(client, to_numbers, from_number, message)
+    send_in_segments(client, to_numbers, from_number, message)
 
